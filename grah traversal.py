@@ -38,7 +38,7 @@ cols = int(input("Enter number of columns: "))
 
 grid = []
 
-print("\nEnter the matrix row-wise (0 and 1 only):")
+print("Enter the matrix row wise:")
 
 for i in range(rows):
     row = list(map(int, input(f"Row {i + 1}: ").split()))
