@@ -1,30 +1,35 @@
 from collections import deque
 
-
 def bfs(grid, row, col, rows, cols):
     queue = deque()
-    queue.append((row, col))
 
+    
+    queue.append((row, col))
 
     grid[row][col] = 0
 
     while queue:
-        current_r, current_c = queue.popleft()
+        current_row, current_col = queue.popleft()
 
        
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        if current_row - 1 >= 0 and grid[current_row - 1][current_col] == 1:
+            queue.append((current_row - 1, current_col))
+            grid[current_row - 1][current_col] = 0
 
-        for dr, dc in directions:
-            new_r = current_r + dr
-            new_c = current_c + dc
 
-            
-            if (0 <= new_r < rows and
-                0 <= new_c < cols and
-                grid[new_r][new_c] == 1):
+        if current_row + 1 < rows and grid[current_row + 1][current_col] == 1:
+            queue.append((current_row + 1, current_col))
+            grid[current_row + 1][current_col] = 0
 
-                queue.append((new_r, new_c))
-                grid[new_r][new_c] = 0 
+        
+        if current_col - 1 >= 0 and grid[current_row][current_col - 1] == 1:
+            queue.append((current_row, current_col - 1))
+            grid[current_row][current_col - 1] = 0
+
+        
+        if current_col + 1 < cols and grid[current_row][current_col + 1] == 1:
+            queue.append((current_row, current_col + 1))
+            grid[current_row][current_col + 1] = 0
 
 
 
@@ -33,19 +38,16 @@ cols = int(input("Enter number of columns: "))
 
 grid = []
 
-print("Enter the matrix values row wise (only 0 and 1):")
-
+print("\nEnter the matrix row-wise (0 and 1 only):")
 
 for i in range(rows):
     row = list(map(int, input(f"Row {i + 1}: ").split()))
 
-    
-    while len(row) != cols or any(value not in (0, 1) for value in row):
-        print(f"Please enter exactly {cols} values using only 0 and 1.")
+    while len(row) != cols:
+        print(f"Please enter exactly {cols} values.")
         row = list(map(int, input(f"Row {i + 1}: ").split()))
 
     grid.append(row)
-
 
 islands = 0
 
@@ -55,5 +57,4 @@ for i in range(rows):
             islands += 1
             bfs(grid, i, j, rows, cols)
 
-
-print("number of islands:", islands)
+print("\nTotal Number of Islands =", islands)
